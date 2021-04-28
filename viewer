@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (QApplication,
                                QLabel,
                                QMessageBox)
 
-from widgets import ResizeNotifyingWidget
+from widgets import ResizedNotifyingWidget
 
 APP_NAME = 'Image Viewer'
 MAX_START_RATIO = 0.9
@@ -31,7 +31,7 @@ path = parser.parse_args().path
 print(f'{sys.argv[0]}: PID {os.getpid()}', file=sys.stderr)
 
 app = QApplication(sys.argv)
-window = ResizeNotifyingWidget()
+window = ResizedNotifyingWidget()
 screenBounds = window.screen().geometry()
 maxWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
 maxHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
@@ -68,7 +68,7 @@ def handleResize(event: QResizeEvent):
     label.setGeometry(x, y, math.ceil(width), math.ceil(height))
 
 window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
-window.onResize = handleResize
+window.resized.connect(handleResize)
 
 initialRatio = min(1.0,
                    maxWidth / picture.width(),
