@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import math
 import os
@@ -50,14 +52,14 @@ if picture.isNull():
     dialog.exec_()
     sys.exit(1)
 
-if picture.width() > maxWidth or picture.height() > maxHeight:
-    picture = picture.scaled(maxWidth, maxHeight, Qt.KeepAspectRatio)
+ratio = min(1.0, maxWidth / picture.width(), maxHeight / picture.height())
 
 label = QLabel(window)
+label.setScaledContents(True)
+label.setGeometry(0, 0, picture.width() * ratio, picture.height() * ratio)
 label.setPixmap(picture)
-label.setGeometry(0, 0, picture.width(), picture.height())
 
 window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
-window.resize(picture.width(), picture.height())
+window.resize(label.width(), label.height())
 window.show()
 sys.exit(app.exec_())
