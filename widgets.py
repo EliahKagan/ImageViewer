@@ -1,7 +1,7 @@
 """Custom widgets for Image Viewer."""
 
-from PySide2.QtGui import QResizeEvent
-from PySide2.QtWidgets import QWidget
+from PySide6.QtGui import QResizeEvent
+from PySide6.QtWidgets import QWidget
 
 class ResizeNotifyingWidget(QWidget):
     """A widget with a resize handler that can be set at runtime."""
