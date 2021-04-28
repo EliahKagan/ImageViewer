@@ -2,13 +2,19 @@ import argparse
 import math
 import os
 import sys
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
 
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QPixmap
+from PySide2.QtWidgets import (QApplication,
+                               QFileDialog,
+                               QLabel,
+                               QMessageBox,
+                               QWidget)
+
+APP_NAME = 'Image Viewer'
 MAX_START_RATIO = 0.9
 
-parser = argparse.ArgumentParser('Image Viewer')
+parser = argparse.ArgumentParser(APP_NAME)
 parser.add_argument('path',
                     nargs='?',
                     help='The path of the image to be opened.',
@@ -19,8 +25,6 @@ print(f'{sys.argv[0]}: PID {os.getpid()}', file=sys.stderr)
 
 app = QApplication(sys.argv)
 window = QWidget()
-window.setWindowTitle('Image Viewer')
-
 screenBounds = app.desktop().screenGeometry(window)
 maxWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
 maxHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
@@ -49,6 +53,7 @@ label = QLabel(window)
 label.setPixmap(picture)
 label.setGeometry(0, 0, picture.width(), picture.height())
 
+window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
 window.resize(picture.width(), picture.height())
 window.show()
 sys.exit(app.exec_())
