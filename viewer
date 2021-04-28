@@ -10,6 +10,7 @@ from PySide6.QtGui import QPixmap, QResizeEvent
 from PySide6.QtWidgets import (QApplication,
                                QFileDialog,
                                QLabel,
+                               QMenu,
                                QMessageBox)
 
 from widgets import ResizedNotifyingWidget
@@ -20,6 +21,7 @@ MAX_START_RATIO = 0.9
 RSQUO = '\N{RIGHT SINGLE QUOTATION MARK}'
 LDQUO = '\N{LEFT DOUBLE QUOTATION MARK}'
 RDQUO = '\N{RIGHT DOUBLE QUOTATION MARK}'
+HELLIP = '\N{HORIZONTAL ELLIPSIS}'
 
 parser = argparse.ArgumentParser(APP_NAME)
 parser.add_argument('path',
@@ -54,9 +56,20 @@ if picture.isNull():
     dialog.exec_()
     sys.exit(1)
 
+def showAbout():
+    QMessageBox.about(window,
+                      f'About {APP_NAME}',
+                      'Image Viewer is an image viewer by Eliah Kagan.')
+
+menu = QMenu(window)
+menu.addAction(f'About{HELLIP}', showAbout)
+menu.addAction(f'About Qt{HELLIP}', lambda: QMessageBox.aboutQt(window))
+
 label = QLabel(window)
 label.setScaledContents(True)
 label.setPixmap(picture)
+label.setContextMenuPolicy(Qt.CustomContextMenu)
+label.customContextMenuRequested.connect(menu.exec_)
 
 def handleResize(event: QResizeEvent):
     ratio = min(event.size().width() / picture.width(),
