@@ -6,7 +6,7 @@ import os
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QResizeEvent
+from PySide6.QtGui import QAction, QIcon, QPixmap, QResizeEvent
 from PySide6.QtWidgets import (QApplication,
                                QFileDialog,
                                QLabel,
@@ -61,8 +61,13 @@ def showAbout():
                       f'About {APP_NAME}',
                       f'{APP_NAME} is an image viewer by Eliah Kagan.')
 
+about = QAction(f'About {APP_NAME}{HELLIP}')
+about.setIcon(QIcon.fromTheme('help-about'))
+print(about.icon())  # FIXME: remove after debugging
+about.triggered.connect(showAbout)
+
 menu = QMenu(window)
-menu.addAction(f'About{HELLIP}', showAbout)
+menu.addAction(about)
 menu.addAction(f'About Qt{HELLIP}', lambda: QMessageBox.aboutQt(window))
 
 def showMenu(pos):
