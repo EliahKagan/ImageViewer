@@ -14,6 +14,10 @@ from PySide2.QtWidgets import (QApplication,
 APP_NAME = 'Image Viewer'
 MAX_START_RATIO = 0.9
 
+RSQUO = '\N{RIGHT SINGLE QUOTATION MARK}'
+LDQUO = '\N{LEFT DOUBLE QUOTATION MARK}'
+RDQUO = '\N{RIGHT DOUBLE QUOTATION MARK}'
+
 parser = argparse.ArgumentParser(APP_NAME)
 parser.add_argument('path',
                     nargs='?',
@@ -41,7 +45,7 @@ picture = QPixmap(path)
 if picture.isNull():
     dialog = QMessageBox(window)
     dialog.setWindowTitle(window.windowTitle())
-    dialog.setText(f"Couldn't open {path}")
+    dialog.setText(f'Couldn{RSQUO}t open {LDQUO}{path}{RDQUO}')
     dialog.setWindowFlag(Qt.WindowStaysOnTopHint)
     dialog.exec_()
     sys.exit(1)
