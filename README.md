@@ -13,6 +13,8 @@ long-standing image types. Qt&rsquo;s `QPixmap` class automatically supports
 this, so one gets WebP support with no special effort, when writing an image
 viewer targeting Qt.
 
+## How to run it
+
 Image Viewer should run on GNU/Linux systems (such as Ubuntu), Windows, and
 macOS. It depends on some other software, mainly PySide6. I suggest using a
 virtual environment with [`pipenv`](https://pypi.org/project/pipenv/). To do
@@ -28,6 +30,22 @@ Then, to run Image Viewer:
 ```bash
 ./viewer
 ```
+
+That opens a file picker dialog, in which you select a picture to open.
+
+If you like, you can instead pass the path as a command-line argument, such as:
+
+```bash
+./viewer unexpected-bobcat.webp
+```
+
+To be reminded of how to run it:
+
+```bash
+./viewer --help
+```
+
+## The `libOpenGL.so.0` bug
 
 Unfortunately, [a bug in Qt](https://bugreports.qt.io/browse/PYSIDE-1547) gives
 an error on some systems:
