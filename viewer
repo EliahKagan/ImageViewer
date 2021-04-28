@@ -46,9 +46,10 @@ if path is None:
 picture = QPixmap(path)
 
 if picture.isNull():
-    dialog = QMessageBox(window)
-    dialog.setWindowTitle(window.windowTitle())
+    dialog = QMessageBox()
+    dialog.setWindowTitle(APP_NAME)
     dialog.setText(f'Couldn{RSQUO}t open {LDQUO}{path}{RDQUO}')
+    dialog.setIcon(QMessageBox.Critical)
     dialog.setWindowFlag(Qt.WindowStaysOnTopHint)
     dialog.exec_()
     sys.exit(1)
