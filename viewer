@@ -59,7 +59,7 @@ if picture.isNull():
 def showAbout():
     QMessageBox.about(window,
                       f'About {APP_NAME}',
-                      'Image Viewer is an image viewer by Eliah Kagan.')
+                      f'{APP_NAME} is an image viewer by Eliah Kagan.')
 
 menu = QMenu(window)
 menu.addAction(f'About{HELLIP}', showAbout)
@@ -84,7 +84,7 @@ def handleResize(event: QResizeEvent):
     y = max(0, math.floor((event.size().height() - height) / 2))
     label.setGeometry(x, y, math.ceil(width), math.ceil(height))
 
-window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
+window.setWindowTitle(f'{os.path.basename(path)} - {APP_NAME}')
 window.resized.connect(handleResize)
 
 initialRatio = min(1.0,
