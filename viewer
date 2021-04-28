@@ -6,7 +6,7 @@ import os
 import sys
 
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QPixmap
+from PySide2.QtGui import QPixmap, QResizeEvent
 from PySide2.QtWidgets import (QApplication,
                                QFileDialog,
                                QLabel,
@@ -53,15 +53,17 @@ if picture.isNull():
     dialog.exec_()
     sys.exit(1)
 
-ratio = min(1.0, maxWidth / picture.width(), maxHeight / picture.height())
-window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
-window.resize(picture.width() * ratio, picture.height() * ratio)
-
 label = QLabel(window)
 label.setScaledContents(True)
 label.setPixmap(picture)
-stretchLabel = lambda: label.setGeometry(0, 0, window.width(), window.height())
-stretchLabel()
+
+def handleResize(event: QResizeEvent):
+    label.setGeometry(0, 0, event.size().width(), event.size().height())
+
+window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
+window.onResize = handleResize
+ratio = min(1.0, maxWidth / picture.width(), maxHeight / picture.height())
+window.resize(picture.width() * ratio, picture.height() * ratio)
 
 window.show()
 sys.exit(app.exec_())
