@@ -58,12 +58,24 @@ label.setScaledContents(True)
 label.setPixmap(picture)
 
 def handleResize(event: QResizeEvent):
-    label.setGeometry(0, 0, event.size().width(), event.size().height())
+    ratio = min(event.size().width() / picture.width(),
+                event.size().height() / picture.height())
+
+    width = math.ceil(picture.width() * ratio)
+    height = math.ceil(picture.height() * ratio)
+    x = (event.size().width() - width) // 2
+    y = (event.size().height() - height) // 2
+    label.setGeometry(x, y, width, height)
 
 window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
 window.onResize = handleResize
-ratio = min(1.0, maxWidth / picture.width(), maxHeight / picture.height())
-window.resize(picture.width() * ratio, picture.height() * ratio)
+
+initialRatio = min(1.0,
+                   maxWidth / picture.width(),
+                   maxHeight / picture.height())
+initialWidth = math.ceil(picture.width() * initialRatio)
+initialHeight = math.ceil(picture.height() * initialRatio)
+window.resize(initialWidth, initialHeight)
 
 window.show()
 sys.exit(app.exec_())
