@@ -6,15 +6,11 @@ from PySide2.QtWidgets import QWidget
 class ResizeNotifyingWidget(QWidget):
     """A widget with a reisze handler that can be set at runtime."""
 
-    __slots__ = ('resizeHandler', )
-
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.resizeHandler = None
+        self.onResize = lambda _: None
 
     def resizeEvent(self, event: QResizeEvent) -> None:
+        print('Resizing.')  # FIXME: remove after debugging
         super().resizeEvent(event)
-
-        handler = self.resizeHandler
-        if handler is not None:
-            handler(event)
+        self.onResize(event)
