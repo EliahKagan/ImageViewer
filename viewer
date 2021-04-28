@@ -65,11 +65,14 @@ menu = QMenu(window)
 menu.addAction(f'About{HELLIP}', showAbout)
 menu.addAction(f'About Qt{HELLIP}', lambda: QMessageBox.aboutQt(window))
 
+def showMenu(pos):
+    return menu.exec_(window.mapToGlobal(pos))
+
 label = QLabel(window)
 label.setScaledContents(True)
 label.setPixmap(picture)
 label.setContextMenuPolicy(Qt.CustomContextMenu)
-label.customContextMenuRequested.connect(menu.exec_)
+label.customContextMenuRequested.connect(showMenu)
 
 def handleResize(event: QResizeEvent):
     ratio = min(event.size().width() / picture.width(),
