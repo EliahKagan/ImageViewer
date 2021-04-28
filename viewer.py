@@ -53,13 +53,14 @@ if picture.isNull():
     sys.exit(1)
 
 ratio = min(1.0, maxWidth / picture.width(), maxHeight / picture.height())
+window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
+window.resize(picture.width() * ratio, picture.height() * ratio)
 
 label = QLabel(window)
 label.setScaledContents(True)
-label.setGeometry(0, 0, picture.width() * ratio, picture.height() * ratio)
 label.setPixmap(picture)
+stretchLabel = lambda: label.setGeometry(0, 0, window.width(), window.height())
+stretchLabel()
 
-window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
-window.resize(label.width(), label.height())
 window.show()
 sys.exit(app.exec_())
