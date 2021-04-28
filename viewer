@@ -61,11 +61,11 @@ def handleResize(event: QResizeEvent):
     ratio = min(event.size().width() / picture.width(),
                 event.size().height() / picture.height())
 
-    width = math.ceil(picture.width() * ratio)
-    height = math.ceil(picture.height() * ratio)
-    x = (event.size().width() - width) // 2
-    y = (event.size().height() - height) // 2
-    label.setGeometry(x, y, width, height)
+    width = picture.width() * ratio
+    height = picture.height() * ratio
+    x = max(0, math.floor((event.size().width() - width) / 2))
+    y = max(0, math.floor((event.size().height() - height) / 2))
+    label.setGeometry(x, y, math.ceil(width), math.ceil(height))
 
 window.setWindowTitle(f'{APP_NAME} - {os.path.basename(path)}')
 window.onResize = handleResize
