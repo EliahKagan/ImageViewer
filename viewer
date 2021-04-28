@@ -11,7 +11,8 @@ from PySide6.QtWidgets import (QApplication,
                                QFileDialog,
                                QLabel,
                                QMenu,
-                               QMessageBox)
+                               QMessageBox,
+                               QStyle)
 
 from widgets import ResizedNotifyingWidget
 
@@ -62,8 +63,7 @@ def showAbout():
                       f'{APP_NAME} is an image viewer by Eliah Kagan.')
 
 about = QAction(f'About {APP_NAME}{HELLIP}')
-about.setIcon(QIcon.fromTheme('help-about'))
-print(about.icon())  # FIXME: remove after debugging
+about.setIcon(window.style().standardIcon(QStyle.SP_MessageBoxInformation))
 about.triggered.connect(showAbout)
 
 menu = QMenu(window)
