@@ -10,8 +10,9 @@ from PySide2.QtGui import QPixmap
 from PySide2.QtWidgets import (QApplication,
                                QFileDialog,
                                QLabel,
-                               QMessageBox,
-                               QWidget)
+                               QMessageBox)
+
+from widgets import ResizeNotifyingWidget
 
 APP_NAME = 'Image Viewer'
 MAX_START_RATIO = 0.9
@@ -30,7 +31,7 @@ path = parser.parse_args().path
 print(f'{sys.argv[0]}: PID {os.getpid()}', file=sys.stderr)
 
 app = QApplication(sys.argv)
-window = QWidget()
+window = ResizeNotifyingWidget()
 screenBounds = app.desktop().screenGeometry(window)
 maxWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
 maxHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
