@@ -14,15 +14,11 @@ from PySide6.QtWidgets import (QApplication,
                                QMessageBox,
                                QStyle)
 
+import ch
 from widgets import ResizedNotifyingWidget
 
 APP_NAME = 'Image Viewer'
 MAX_START_RATIO = 0.9
-
-RSQUO = '\N{RIGHT SINGLE QUOTATION MARK}'
-LDQUO = '\N{LEFT DOUBLE QUOTATION MARK}'
-RDQUO = '\N{RIGHT DOUBLE QUOTATION MARK}'
-HELLIP = '\N{HORIZONTAL ELLIPSIS}'
 
 parser = argparse.ArgumentParser(APP_NAME)
 parser.add_argument('path',
@@ -47,14 +43,17 @@ picture = QPixmap(path)
 if picture.isNull():
     dialog = QMessageBox()
     dialog.setWindowTitle(APP_NAME)
-    dialog.setText(f'Couldn{RSQUO}t open {LDQUO}{path}{RDQUO}')
+    dialog.setText(f'Couldn{ch.RSQUO}t open {ch.LDQUO}{path}{ch.RDQUO}')
     dialog.setIcon(QMessageBox.Critical)
     dialog.setWindowFlag(Qt.WindowStaysOnTopHint)
     dialog.exec_()
     sys.exit(1)
 
+filename = os.path.basename(path)
+dimensions = f'{picture.width()}{ch.TIMES}{picture.height()}'
+
 window = ResizedNotifyingWidget()
-window.setWindowTitle(f'{os.path.basename(path)} - {APP_NAME}')
+window.setWindowTitle(f'{filename} ({dimensions})')
 window.setWindowIcon(QIcon(picture))
 
 def showAbout():
@@ -64,13 +63,13 @@ def showAbout():
     dialog.setIcon(QMessageBox.Information)
     dialog.exec_()
 
-about = QAction(f'About {APP_NAME}{HELLIP}')
+about = QAction(f'About {APP_NAME}{ch.HELLIP}')
 about.setIcon(window.style().standardIcon(QStyle.SP_MessageBoxInformation))
 about.triggered.connect(showAbout)
 
 menu = QMenu(window)
 menu.addAction(about)
-menu.addAction(f'About Qt{HELLIP}', lambda: QMessageBox.aboutQt(window))
+menu.addAction(f'About Qt{ch.HELLIP}', lambda: QMessageBox.aboutQt(window))
 
 def showMenu(pos):
     return menu.exec_(window.mapToGlobal(pos))
