@@ -34,10 +34,6 @@ path = parser.parse_args().path
 print(f'{sys.argv[0]}: PID {os.getpid()}', file=sys.stderr)
 
 app = QApplication(sys.argv)
-window = ResizedNotifyingWidget()
-screenBounds = window.screen().geometry()
-maxWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
-maxHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
 
 if path is None:
     path, _ = QFileDialog.getOpenFileName(None,
@@ -57,10 +53,16 @@ if picture.isNull():
     dialog.exec_()
     sys.exit(1)
 
+window = ResizedNotifyingWidget()
+window.setWindowTitle(f'{os.path.basename(path)} - {APP_NAME}')
+window.setWindowIcon(QIcon(picture))
+
 def showAbout():
-    QMessageBox.about(window,
-                      f'About {APP_NAME}',
-                      f'{APP_NAME} is an image viewer by Eliah Kagan.')
+    dialog = QMessageBox(window)
+    dialog.setWindowTitle(f'About {APP_NAME}')
+    dialog.setText(f'{APP_NAME} is an image viewer by Eliah Kagan.')
+    dialog.setIcon(QMessageBox.Information)
+    dialog.exec_()
 
 about = QAction(f'About {APP_NAME}{HELLIP}')
 about.setIcon(window.style().standardIcon(QStyle.SP_MessageBoxInformation))
@@ -87,14 +89,17 @@ def handleResize(event: QResizeEvent):
     height = picture.height() * ratio
     x = max(0, math.floor((event.size().width() - width) / 2))
     y = max(0, math.floor((event.size().height() - height) / 2))
+
     label.setGeometry(x, y, math.ceil(width), math.ceil(height))
 
-window.setWindowTitle(f'{os.path.basename(path)} - {APP_NAME}')
 window.resized.connect(handleResize)
 
+screenBounds = window.screen().geometry()
+maxInitialWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
+maxInitialHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
 initialRatio = min(1.0,
-                   maxWidth / picture.width(),
-                   maxHeight / picture.height())
+                   maxInitialWidth / picture.width(),
+                   maxInitialHeight / picture.height())
 initialWidth = math.ceil(picture.width() * initialRatio)
 initialHeight = math.ceil(picture.height() * initialRatio)
 window.resize(initialWidth, initialHeight)
