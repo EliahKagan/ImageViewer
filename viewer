@@ -40,7 +40,7 @@ maxWidth = math.floor(screenBounds.width() * MAX_START_RATIO)
 maxHeight = math.floor(screenBounds.height() * MAX_START_RATIO)
 
 if path is None:
-    path, _ = QFileDialog.getOpenFileName(window,
+    path, _ = QFileDialog.getOpenFileName(None,
                                           'Open Image File',
                                           os.path.expanduser('~'))
     if not path:
