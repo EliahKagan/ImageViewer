@@ -31,8 +31,8 @@ what operating system you&rsquo;re running.
 ## Installing `pipenv` with your system&rsquo;s package manager
 
 If you're using a GNU/Linux system, it&rsquo;s likely been packaged your
-system&rsquo;. For example, on all recent versions of Debian and Ubuntu, you
-can just run:
+system. For example, on all recent versions of Debian and Ubuntu, you can just
+run:
 
 ```bash
 sudo apt update
@@ -51,7 +51,10 @@ account, then you can install it with [`pip`](https://pypi.org/project/pip/).
 python3 -m pip install --user pipenv
 ```
 
-On some systems, `python` means `python2`; on others, it means `python3`; on still others, there is on `python` command. But if you don&rsquo;t have a `python3` command, check if `python` is Python 3 by running `python -V`. If it is, run:
+On some systems, `python` means `python2`; on others, it means `python3`; on
+still others, there is on `python` command. But if you don&rsquo;t have a
+`python3` command, check if `python` is Python 3 by running `python -V`. If it
+is, run:
 
 ```bash
 python -m pip install --user pipenv

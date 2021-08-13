@@ -22,27 +22,47 @@ that, [install `pipenv` if you don&rsquo;t have it](getting-pipenv.md), then
 from the top-level directory of this repository, run:
 
 ```bash
-pipenv sync
+pipenv update
 ```
 
 Then, to run Image Viewer:
 
 ```bash
-./viewer
+pipenv run python viewer
 ```
+
+(You can alternatively use `pipenv run ./viewer`, except on Windows.)
 
 That opens a file picker dialog, in which you select a picture to open.
 
 If you like, you can instead pass the path as a command-line argument, such as:
 
 ```bash
-./viewer unexpected-bobcat.webp
+pipenv run python viewer unexpected-bobcat.webp
 ```
+
+(Likewise, `pipenv run ./viewer unexpected-bobcat.webp` works except on
+Windows.)
+
+If you're going to run Image Viewer multiple times in succession, you can have
+`pipenv` start you a shell:
+
+```bash
+pipenv shell
+```
+
+Then you can run it in the shell like this:
+
+```bash
+python viewer
+```
+
+(Though you&rsquo;ll likely prefer simply `./viewer`&mdash;except on Windows.)
 
 To be reminded of how to run it:
 
 ```bash
-./viewer --help
+python viewer --help
 ```
 
 ## The `libOpenGL.so.0` bug

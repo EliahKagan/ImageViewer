@@ -46,7 +46,7 @@ if picture.isNull():
     dialog.setText(f'Couldn{ch.RSQUO}t open {ch.LDQUO}{path}{ch.RDQUO}')
     dialog.setIcon(QMessageBox.Critical)
     dialog.setWindowFlag(Qt.WindowStaysOnTopHint)
-    dialog.exec_()
+    dialog.exec()
     sys.exit(1)
 
 filename = os.path.basename(path)
@@ -61,7 +61,7 @@ def showAbout():
     dialog.setWindowTitle(f'About {APP_NAME}')
     dialog.setText(f'{APP_NAME} is an image viewer by Eliah Kagan.')
     dialog.setIcon(QMessageBox.Information)
-    dialog.exec_()
+    dialog.exec()
 
 about = QAction(f'About {APP_NAME}{ch.HELLIP}')
 about.setIcon(window.style().standardIcon(QStyle.SP_MessageBoxInformation))
@@ -72,7 +72,7 @@ menu.addAction(about)
 menu.addAction(f'About Qt{ch.HELLIP}', lambda: QMessageBox.aboutQt(window))
 
 def showMenu(pos):
-    return menu.exec_(window.mapToGlobal(pos))
+    return menu.exec(window.mapToGlobal(pos))
 
 label = QLabel(window)
 label.setScaledContents(True)
@@ -104,4 +104,4 @@ initialHeight = math.ceil(picture.height() * initialRatio)
 window.resize(initialWidth, initialHeight)
 
 window.show()
-sys.exit(app.exec_())
+sys.exit(app.exec())
