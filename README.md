@@ -84,3 +84,57 @@ sudo apt install libopengl0
 
 Then you should be able to run Image Viewer (and other PySide6 programs)
 without a crash.
+
+## Other dependency satisfaction bugs
+
+Sometimes other libraries are needed. In particular, you may get:
+
+```text
+t.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland, wayland-xcomposite-egl, wayland-xcomposite-glx, xcb.
+```
+
+I don&rsquo;t think this happens on Windows; if it does, I don&rsquo;t know how
+to solve it there.
+
+Otherwise, to find out how to fix it, re-run the command that produced that
+error with the `QT_DEBUG_PLUGINS` environment variable set to `1`. For example,
+in a Bourne-style shell like `bash` or `zsh`, if you ran `./viewer`, run:
+
+```bash
+QT_DEBUG_PLUGINS=1 ./viewer
+```
+
+Likewise, if you ran `pipenv run ./viewer`, run:
+
+```bash
+QT_DEBUG_PLUGINS=1 pipenv run ./viewer
+```
+
+This produces lots of output. Look near the end, just above the text that appeared before when you ran it without `QT_DEBUG_PLUGINS=1`, and look for an error message that ends like
+
+```text
+(FILENAME: cannot open shared object file: No such file or directory)
+```
+
+but with some filename in place of `FILENAME`. For example:
+
+```text
+Cannot load library /home/ek/.local/share/virtualenvs/ImageViewer-hsDVqvxw/lib/python3.9/site-packages/PySide6/Qt/plugins/platforms/libqxcb.so: (libxcb-icccm.so.4: cannot open shared object file: No such file or directory)
+```
+
+In that example, the file I needed was `libxcb-icccm.so.4`.
+
+Then search for how to install the package that provides that file on your
+system. Depending on what system or (especially in the case of macOS) what
+third-party package manager you&rsquo;re using, you may be able to do this
+directly from the package manager. Or you may be able to check online: for
+example, you can [search the contents of packages for
+Debian](https://www.debian.org/distrib/packages#search_contents) or [search the
+contents of packages for Ubuntu](https://packages.ubuntu.com/#search_contents).
+
+Then install that package and try again. You may be missing multiple libraries,
+but the error output will only tell you about one each time, so you may need to
+do it a few times.
