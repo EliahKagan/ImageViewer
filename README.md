@@ -28,6 +28,11 @@ long-standing image types. Qt&rsquo;s `QPixmap` class automatically supports
 this, so one gets WebP support with no special effort, when writing an image
 viewer targeting Qt.
 
+## License
+
+Image Viewer [**is licensed**](LICENSE) under
+[0BSD](https://spdx.org/licenses/0BSD.html).
+
 ## How to run it
 
 Image Viewer should run on GNU/Linux systems (such as Ubuntu), Windows, and
